@@ -1,0 +1,15 @@
+.toolbar { display: flex; gap: .75rem; align-items: center; margin-bottom: .75rem; }
+select { padding: .4rem .6rem; border: 1px solid #cfcfcf; border-radius: 8px; }
+
+.grid { width: 100%; border-collapse: collapse; }
+.grid th, .grid td { padding: .6rem .5rem; border-bottom: 1px solid #eee; vertical-align: top; }
+.title { font-weight: 600; }
+.desc { color: #666; font-size: .9rem; margin-top: .2rem; }
+.actions { display: flex; gap: .5rem; }
+button { padding: .4rem .7rem; border-radius: 8px; border: 0; cursor: pointer; }
+button:disabled { opacity: .5; cursor: not-allowed; }
+.badge { padding: .2rem .5rem; border-radius: 999px; font-size: .8rem; }
+.badge.pending { background: #fff7e6; color: #9a6700; }
+.badge.inprog { background: #e7f3ff; color: #0957d0; }
+.badge.done { background: #e6f4ea; color: #0f6d2f; }
+.muted { color: #777; }

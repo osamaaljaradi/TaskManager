@@ -1,0 +1,39 @@
+<form [formGroup]="form" (ngSubmit)="submit()" class="card" dir="rtl" lang="ar">
+  <h2>إضافة مهمة</h2>
+
+  <label for="title">العنوان</label>
+  <input
+    id="title"
+    type="text"
+    formControlName="title"
+    placeholder="العنوان"
+    aria-describedby="titleErrors"
+  />
+  <small id="titleErrors" class="error"
+         *ngIf="form.controls.title.touched && form.controls.title.invalid">
+    <ng-container *ngIf="form.controls.title.errors?.['required']">
+      العنوان مطلوب.
+    </ng-container>
+    <ng-container *ngIf="form.controls.title.errors?.['minlength']">
+      الحد الأدنى لطول العنوان هو 3 أحرف.
+    </ng-container>
+  </small>
+
+  <label for="description">الوصف</label>
+  <textarea
+    id="description"
+    rows="3"
+    formControlName="description"
+    placeholder="الوصف"
+  ></textarea>
+
+  <label for="status">الحالة</label>
+  <select id="status" formControlName="status" aria-describedby="statusErrors">
+    <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
+  </select>
+  <small id="statusErrors" class="error"
+         *ngIf="form.controls.status.touched && form.controls.status.invalid">
+    يرجى اختيار حالة صالحة.
+  </small>
+  <button type="submit" [disabled]="form.invalid">إضافة</button>
+</form>

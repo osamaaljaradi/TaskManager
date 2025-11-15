@@ -1,0 +1,4 @@
+.card { display: grid; gap: .75rem; padding: 1rem; border: 1px solid #e6e6e6; border-radius: 12px; }
+input, textarea, select { padding: .5rem .6rem; border: 1px solid #cfcfcf; border-radius: 8px; }
+button { padding: .6rem .9rem; border: 0; border-radius: 10px; background: #1a73e8; color: #fff; cursor: pointer; }
+.error { color: #d93025; }

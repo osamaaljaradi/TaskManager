@@ -6,5 +6,14 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'TaskManager';
+ showAdd = false;
+
+  toggleAdd() {
+    this.showAdd = !this.showAdd;
+  }
+
+
+  onAdded() {
+    this.showAdd = false;
+  }
 }
