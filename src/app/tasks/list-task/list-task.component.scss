@@ -1,15 +1,88 @@
-.toolbar { display: flex; gap: .75rem; align-items: center; margin-bottom: .75rem; }
-select { padding: .4rem .6rem; border: 1px solid #cfcfcf; border-radius: 8px; }
+// src/app/components/task-list/task-list.component.scss
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
-.grid { width: 100%; border-collapse: collapse; }
-.grid th, .grid td { padding: .6rem .5rem; border-bottom: 1px solid #eee; vertical-align: top; }
-.title { font-weight: 600; }
-.desc { color: #666; font-size: .9rem; margin-top: .2rem; }
-.actions { display: flex; gap: .5rem; }
-button { padding: .4rem .7rem; border-radius: 8px; border: 0; cursor: pointer; }
-button:disabled { opacity: .5; cursor: not-allowed; }
-.badge { padding: .2rem .5rem; border-radius: 999px; font-size: .8rem; }
-.badge.pending { background: #fff7e6; color: #9a6700; }
-.badge.inprog { background: #e7f3ff; color: #0957d0; }
-.badge.done { background: #e6f4ea; color: #0f6d2f; }
-.muted { color: #777; }
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 14px;
+}
+
+.filter-row select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th,
+td {
+  padding: 10px 8px;
+  border-bottom: 1px solid #f0f0f0;
+  text-align: left;
+}
+
+th {
+  background-color: #fafafa;
+  font-weight: 600;
+}
+
+.actions {
+  white-space: nowrap;
+}
+
+.actions button {
+  margin-right: 6px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.btn-progress {
+  background-color: #ffa000;
+  color: #fff;
+}
+
+.btn-completed {
+  background-color: #2e7d32;
+  color: #fff;
+}
+
+.actions button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.status {
+  font-weight: 600;
+}
+
+.status-pending {
+  color: #ffa000;
+}
+
+.status-progress {
+  color: #1976d2;
+}
+
+.status-completed {
+  color: #2e7d32;
+}
+
+.empty {
+  text-align: center;
+  color: #777;
+  padding: 16px 0;
+}

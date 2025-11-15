@@ -1,39 +1,41 @@
-<form [formGroup]="form" (ngSubmit)="submit()" class="card" dir="rtl" lang="ar">
-  <h2>إضافة مهمة</h2>
+<!-- src/app/components/add-task/add-task.component.html -->
+<form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
 
-  <label for="title">العنوان</label>
-  <input
-    id="title"
-    type="text"
-    formControlName="title"
-    placeholder="العنوان"
-    aria-describedby="titleErrors"
-  />
-  <small id="titleErrors" class="error"
-         *ngIf="form.controls.title.touched && form.controls.title.invalid">
-    <ng-container *ngIf="form.controls.title.errors?.['required']">
-      العنوان مطلوب.
-    </ng-container>
-    <ng-container *ngIf="form.controls.title.errors?.['minlength']">
-      الحد الأدنى لطول العنوان هو 3 أحرف.
-    </ng-container>
-  </small>
+  <h2 class="form-title">إضافة مهمة جديدة</h2>
 
-  <label for="description">الوصف</label>
-  <textarea
-    id="description"
-    rows="3"
-    formControlName="description"
-    placeholder="الوصف"
-  ></textarea>
+  <div class="form-group">
+    <label for="title">عنوان المهمة</label>
+    <input
+      id="title"
+      type="text"
+      formControlName="title"
+      placeholder="مثال: إنهاء تقرير المشروع" />
 
-  <label for="status">الحالة</label>
-  <select id="status" formControlName="status" aria-describedby="statusErrors">
-    <option *ngFor="let s of statusOptions" [value]="s">{{ s }}</option>
-  </select>
-  <small id="statusErrors" class="error"
-         *ngIf="form.controls.status.touched && form.controls.status.invalid">
-    يرجى اختيار حالة صالحة.
-  </small>
-  <button type="submit" [disabled]="form.invalid">إضافة</button>
+    <small class="error"
+           *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">
+      العنوان مطلوب
+    </small>
+  </div>
+
+  <div class="form-group">
+    <label for="description">الوصف</label>
+    <textarea
+      id="description"
+      rows="4"
+      formControlName="description"
+      placeholder="ادخل تفاصيل المهمة هنا"></textarea>
+  </div>
+
+  <div class="form-group">
+    <label for="status">الحالة</label>
+    <select id="status" formControlName="status">
+      <option *ngFor="let status of statusOptions" [value]="status">
+        {{ status }}
+      </option>
+    </select>
+  </div>
+
+  <button type="submit" [disabled]="taskForm.invalid">
+    إضافة المهمة
+  </button>
 </form>

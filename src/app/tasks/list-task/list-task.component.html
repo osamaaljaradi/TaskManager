@@ -1,53 +1,62 @@
+<!-- src/app/components/task-list/task-list.component.html -->
+<div class="task-list">
 
-<section class="toolbar" dir="rtl" lang="ar">
-  <label for="statusFilter">تصفية الحالة</label>
-  <select id="statusFilter" [formControl]="statusFilter">
-    <option *ngFor="let o of filterOptions" [value]="o">
-      {{ o === 'All' ? 'الكل' : o }}
-    </option>
-  </select>
-</section>
+  <div class="filter-row">
+    <label for="statusFilter">فلترة حسب الحالة:</label>
+    <select id="statusFilter"
+            [(ngModel)]="selectedStatus"
+            (change)="onFilterChange()">
+      <option value="All">All</option>
+      <option [ngValue]="TaskStatus.Pending">Pending</option>
+      <option [ngValue]="TaskStatus.InProgress">In Progress</option>
+      <option [ngValue]="TaskStatus.Completed">Completed</option>
+    </select>
+  </div>
 
-<table class="grid" *ngIf="(vm$ | async) as vm" dir="rtl" lang="ar">
-  <thead>
-    <tr>
-      <th>العنوان</th>
-      <th>الحالة</th>
-      <th>إجراءات</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let t of vm.tasks; trackBy: trackById">
-      <td>
-        <div class="title">{{ t.title }}</div>
-        <div class="desc" *ngIf="t.description">{{ t.description }}</div>
-      </td>
+  <table>
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
 
-      <td>
-        <span class="badge"
-              [class.pending]="t.status === TaskStatus.Pending"
-              [class.inprog]="t.status === TaskStatus.InProgress"
-              [class.done]="t.status === TaskStatus.Completed">
-          {{ t.status }}
-        </span>
-      </td>
+    <tbody>
+      <tr *ngFor="let task of filteredTasks">
+        <td>{{ task.title }}</td>
 
-      <td class="actions">
-        <button
-          (click)="markInProgress(t)"
-          [disabled]="t.status === TaskStatus.InProgress || t.status === TaskStatus.Completed">
-          قيد التنفيذ
-        </button>
-        <button
-          (click)="markCompleted(t)"
-          [disabled]="t.status === TaskStatus.Completed">
-          منجزة
-        </button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <td>
+          <span class="status"
+                [ngClass]="{
+                  'status-pending': task.status === TaskStatus.Pending,
+                  'status-progress': task.status === TaskStatus.InProgress,
+                  'status-completed': task.status === TaskStatus.Completed
+                }">
+            {{ task.status }}
+          </span>
+        </td>
 
-<p class="muted" *ngIf="(vm$ | async)?.total === 0" dir="rtl" lang="ar">
-  لا توجد مهام بعد. أضِف أول مهمة الآن!
-</p>
+        <td class="actions">
+          <button
+            class="btn-progress"
+            (click)="setInProgress(task)"
+            [disabled]="task.status === TaskStatus.InProgress || task.status === TaskStatus.Completed">
+            In Progress
+          </button>
+
+          <button
+            class="btn-completed"
+            (click)="setCompleted(task)"
+            [disabled]="task.status === TaskStatus.Completed">
+            Completed
+          </button>
+        </td>
+      </tr>
+
+      <tr *ngIf="filteredTasks.length === 0">
+        <td colspan="3" class="empty">لا توجد مهام مطابقة للفِلتر الحالي</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

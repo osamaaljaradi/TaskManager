@@ -1,33 +1,68 @@
+// src/app/services/task.service.ts
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { BehaviorSubject } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { Task, TaskStatus } from '../models/task.model';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class TaskService {
-  private readonly _tasks$ = new BehaviorSubject<Task[]>([]);
-  private _idCounter = 1;
 
-  readonly tasks$: Observable<Task[]> =
-    this._tasks$.asObservable().pipe(shareReplay({ bufferSize: 1, refCount: true }));
+  // الحالة الداخلية
+  private tasks: Task[] = [];
 
-  add(input: Omit<Task, 'id'>): void {
-    const next: Task = { id: this._idCounter++, ...input };
-    this._tasks$.next([...this._tasks$.value, next]);
+  // BehaviorSubject يَحمل قائمة المهام
+  private tasksSubject = new BehaviorSubject<Task[]>(this.tasks);
+
+  // observable مع distinctUntilChanged (لتلبية شرط RxJS)
+  tasks$ = this.tasksSubject.asObservable().pipe(
+    distinctUntilChanged()
+  );
+
+  constructor() {
+    // مهام تجريبية مبدئية
+    this.tasks = [
+      {
+        id: 1,
+        title: 'Finish report',
+        description: 'Complete project report',
+        status: TaskStatus.Pending
+      },
+      {
+        id: 2,
+        title: 'Review code',
+        description: 'Review pull requests',
+        status: TaskStatus.InProgress
+      },
+      {
+        id: 3,
+        title: 'Write documentation',
+        description: 'Update docs',
+        status: TaskStatus.Completed
+      }
+    ];
+    this.tasksSubject.next(this.tasks);
   }
 
-  updateStatus(id: number, status: TaskStatus): void {
-    const updated = this._tasks$.value.map(t => (t.id === id ? { ...t, status } : t));
-    this._tasks$.next(updated);
+  // إضافة مهمة جديدة
+  addTask(task: Task): void {
+    const nextId = this.tasks.length ? Math.max(...this.tasks.map(t => t.id)) + 1 : 1;
+    const newTask: Task = { ...task, id: nextId };
+    this.tasks = [...this.tasks, newTask];
+    this.tasksSubject.next(this.tasks);
   }
 
-  filtered(status: TaskStatus | 'All'): Observable<Task[]> {
-    return this.tasks$.pipe(
-      map(tasks => (status === 'All' ? tasks : tasks.filter(t => t.status === status)))
+  // تحديث حالة مهمة
+  updateTaskStatus(id: number, status: TaskStatus): void {
+    this.tasks = this.tasks.map(task =>
+      task.id === id ? { ...task, status } : task
     );
+    this.tasksSubject.next(this.tasks);
   }
 
-  snapshot(): Task[] {
-    return this._tasks$.value;
+  // استرجاع القائمة الحالية (إذا احتجتها كسناب شوت)
+  getCurrentTasks(): Task[] {
+    return this.tasks;
   }
 }

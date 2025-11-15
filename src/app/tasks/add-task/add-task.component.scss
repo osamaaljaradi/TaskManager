@@ -1,4 +1,61 @@
-.card { display: grid; gap: .75rem; padding: 1rem; border: 1px solid #e6e6e6; border-radius: 12px; }
-input, textarea, select { padding: .5rem .6rem; border: 1px solid #cfcfcf; border-radius: 8px; }
-button { padding: .6rem .9rem; border: 0; border-radius: 10px; background: #1a73e8; color: #fff; cursor: pointer; }
-.error { color: #d93025; }
+// src/app/components/add-task/add-task.component.scss
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-title {
+  margin: 0 0 6px;
+  font-size: 20px;
+  text-align: right;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+}
+
+label {
+  font-weight: 600;
+}
+
+input,
+textarea,
+select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #d0d0d0;
+  font-size: 14px;
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: #1976d2;
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.1);
+}
+
+button {
+  align-self: flex-end;
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: none;
+  background-color: #1976d2;
+  color: #fff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.error {
+  color: #d32f2f;
+  font-size: 12px;
+}

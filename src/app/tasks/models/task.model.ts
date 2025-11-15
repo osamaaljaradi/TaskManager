@@ -1,7 +1,8 @@
+// src/app/models/task.model.ts
 export enum TaskStatus {
   Pending = 'Pending',
   InProgress = 'In Progress',
-  Completed = 'Completed',
+  Completed = 'Completed'
 }
 
 export interface Task {
@@ -10,11 +11,3 @@ export interface Task {
   description: string;
   status: TaskStatus;
 }
-
-export const TASK_STATUSES: TaskStatus[] = [
-  TaskStatus.Pending,
-  TaskStatus.InProgress,
-  TaskStatus.Completed,
-];
-
-

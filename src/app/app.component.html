@@ -1,16 +1,15 @@
-<main class="container" dir="rtl" lang="ar">
-  <header class="toolbar">
-    <button (click)="toggleAdd()">
-      {{ showAdd ? 'إخفاء النموذج' : 'إضافة' }}
-    </button>
-  </header>
+<!-- src/app/app.component.html -->
+<div class="app-container">
+  <h1 class="app-title">Task Manager</h1>
 
-  <!-- يظهر النموذج فقط عند الضغط على "إضافة" -->
-  <app-add-task
-    *ngIf="showAdd"
-    (submitted)="onAdded()">
-  </app-add-task>
+  <div class="layout">
+    <section class="panel">
+      <app-add-task></app-add-task>
+    </section>
 
-  <!-- قائمة المهام ثابتة -->
-  <app-list-task></app-list-task>
-</main>
+    <section class="panel">
+      <h2 class="panel-title">قائمة المهام</h2>
+      <app-list-task></app-list-task>
+    </section>
+  </div>
+</div>

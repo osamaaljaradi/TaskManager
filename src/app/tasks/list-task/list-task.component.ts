@@ -1,48 +1,70 @@
-import { Component } from '@angular/core';
+// src/app/components/task-list/task-list.component.ts
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subject, map, takeUntil } from 'rxjs';
+import { Task, TaskStatus } from '../models/task.model';
 import { TaskService } from '../services/task.service';
-import { FormControl } from '@angular/forms';
-import { Task, TASK_STATUSES, TaskStatus } from '../models/task.model';
-import { combineLatest, map, startWith } from 'rxjs';
-
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-list-task',
+  standalone:true,
+  imports:[CommonModule,FormsModule],
   templateUrl: './list-task.component.html',
   styleUrls: ['./list-task.component.scss']
 })
-export class ListTaskComponent {
+export class TaskListComponent implements OnInit, OnDestroy {
 
- constructor(private taskService: TaskService) {}
+  tasks: Task[] = [];
+  filteredTasks: Task[] = [];
 
-  // إتاحة enum للقالب
-  public TaskStatus = TaskStatus;
+  selectedStatus: 'All' | TaskStatus = 'All';
 
-  // فلتر
-  statusFilter = new FormControl<'All' | TaskStatus>('All', { nonNullable: true });
-  filterOptions: ('All' | TaskStatus)[] = ['All', ...TASK_STATUSES];
+  private destroy$ = new Subject<void>();
 
-  vm$ = combineLatest([
-    this.taskService.tasks$,
-    this.statusFilter.valueChanges.pipe(startWith(this.statusFilter.value))
-  ]).pipe(
-    map(([tasks, f]) => {
-      const visible = f === 'All' ? tasks : tasks.filter(t => t.status === f);
-      return { tasks: visible, total: tasks.length, visibleCount: visible.length };
-    })
-  );
+  constructor(private taskService: TaskService) { }
 
-  markInProgress(task: Task): void {
-    if (task.status !== TaskStatus.InProgress) {
-      this.taskService.updateStatus(task.id, TaskStatus.InProgress);
+  ngOnInit(): void {
+    // استخدام map (جزء من متطلبات RxJS)
+    this.taskService.tasks$
+      .pipe(
+        map(tasks => {
+          this.tasks = tasks;
+          return this.applyFilter(tasks, this.selectedStatus);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(filtered => {
+        this.filteredTasks = filtered;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  onFilterChange(): void {
+    this.filteredTasks = this.applyFilter(this.tasks, this.selectedStatus);
+  }
+
+  private applyFilter(tasks: Task[], status: 'All' | TaskStatus): Task[] {
+    if (status === 'All') {
+      return tasks;
+    }
+    return tasks.filter(task => task.status === status);
+  }
+
+  setInProgress(task: Task): void {
+    if (task.status !== TaskStatus.InProgress && task.status !== TaskStatus.Completed) {
+      this.taskService.updateTaskStatus(task.id, TaskStatus.InProgress);
     }
   }
 
-  markCompleted(task: Task): void {
+  setCompleted(task: Task): void {
     if (task.status !== TaskStatus.Completed) {
-      this.taskService.updateStatus(task.id, TaskStatus.Completed);
+      this.taskService.updateTaskStatus(task.id, TaskStatus.Completed);
     }
   }
 
-  trackById(_: number, t: Task) { return t.id; }
-
-
+  readonly TaskStatus = TaskStatus; // لاستخدامه في الـ template
 }
