@@ -1,4 +1,4 @@
-// src/app/components/add-task/add-task.component.ts
+
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TaskService } from '../services/task.service';
@@ -16,7 +16,7 @@ export class AddTaskComponent {
 
   taskForm: FormGroup;
 
-  // نستخدم الـ enum في الـ template
+  
   statusOptions = [
     TaskStatus.Pending,
     TaskStatus.InProgress,

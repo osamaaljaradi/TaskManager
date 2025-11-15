@@ -1,4 +1,4 @@
-// src/app/app.component.ts
+
 import { Component } from '@angular/core';
 import { AddTaskComponent } from "./tasks/add-task/add-task.component";
 import { TaskListComponent } from "./tasks/list-task/list-task.component";

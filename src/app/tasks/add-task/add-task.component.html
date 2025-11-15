@@ -1,4 +1,4 @@
-<!-- src/app/components/add-task/add-task.component.html -->
+
 <form [formGroup]="taskForm" (ngSubmit)="onSubmit()" class="task-form">
 
   <h2 class="form-title">إضافة مهمة جديدة</h2>
@@ -9,7 +9,7 @@
       id="title"
       type="text"
       formControlName="title"
-      placeholder="مثال: إنهاء تقرير المشروع" />
+      placeholder="عنوان المهمة" />
 
     <small class="error"
            *ngIf="taskForm.get('title')?.invalid && taskForm.get('title')?.touched">

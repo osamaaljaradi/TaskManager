@@ -1,4 +1,4 @@
-// src/app/components/task-list/task-list.component.ts
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, map, takeUntil } from 'rxjs';
 import { Task, TaskStatus } from '../models/task.model';
@@ -24,7 +24,7 @@ export class TaskListComponent implements OnInit, OnDestroy {
   constructor(private taskService: TaskService) { }
 
   ngOnInit(): void {
-    // استخدام map (جزء من متطلبات RxJS)
+
     this.taskService.tasks$
       .pipe(
         map(tasks => {
@@ -66,5 +66,5 @@ export class TaskListComponent implements OnInit, OnDestroy {
     }
   }
 
-  readonly TaskStatus = TaskStatus; // لاستخدامه في الـ template
+  readonly TaskStatus = TaskStatus; 
 }

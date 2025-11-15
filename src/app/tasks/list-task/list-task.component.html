@@ -1,8 +1,8 @@
-<!-- src/app/components/task-list/task-list.component.html -->
+
 <div class="task-list">
 
   <div class="filter-row">
-    <label for="statusFilter">فلترة حسب الحالة:</label>
+    <label for="statusFilter">فلترة الحالة:</label>
     <select id="statusFilter"
             [(ngModel)]="selectedStatus"
             (change)="onFilterChange()">
@@ -55,7 +55,7 @@
       </tr>
 
       <tr *ngIf="filteredTasks.length === 0">
-        <td colspan="3" class="empty">لا توجد مهام مطابقة للفِلتر الحالي</td>
+        <td colspan="3" class="empty">لا توجد مهام مطابقة </td>
       </tr>
     </tbody>
   </table>
